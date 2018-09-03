@@ -1,0 +1,91 @@
+.TH LSFTOP 1 "04-Mar-2016" "Ian Chard"
+.SH NAME
+lsftop - display status of LSF cluster
+.SH SYNOPSIS
+.B lsftop
+[
+.B \-v
+]
+.PP
+.SH DESCRIPTION
+.I lsftop
+displays the current status of hosts and queues in the LSF cluster.
+The list of hosts can be sorted either by name or by host group.
+In the latter case, hosts not belonging to any group are appended
+at the end of the list.
+.PP
+The following single-keystroke commands are supported:
+.PP
+.TP
+.B h
+Display a list of supported commands.
+.TP
+.B q
+Quit the program.
+.TP
+.B ^L
+Force a screen redraw.
+.TP
+.B i
+Change the refresh interval (10 seconds by default).
+.TP
+.B d
+Disable a host (requires appropriate privileges).  Equivalent to
+.I badmin hclose
+<hostname>.
+.TP
+.B e
+Enable a host (requires appropriate privileges).  Equivalent to
+.I badmin hopen
+<hostname>.
+.TP
+.B s
+Toggle the display of host groups.
+.PP
+.SH OPTIONS
+.TP
+The following options are supported:
+.B \-v
+Prints the version number and a credit, and exits.
+.B \-s
+Summary mode (for smaller displays).
+.SH FILES
+.TP
+.B $HOME/.lsftop
+stores the last sort order used.  It will be used for more stuff
+in later versions.
+.SH "SEE ALSO"
+lshosts(1), bhosts(1), bqueues(1), xlsbatch(1), badmin(8)
+.SH NOTES
+.I lsftop
+will only run if it can get an LSF client licence.
+.PP
+The terminal in which
+.I lsftop
+is started must be at least 80 characters wide, and high enough
+so that all the queues and hosts can be displayed.  If the terminal
+is not big enough,
+.I lsftop
+will try to resize the window if it's an xterm.  Otherwise
+it will report the required terminal size before aborting.
+.PP
+Privileges are granted by LSF and not by the operating system.
+In some circumstances you might have to be root or the LSF
+admin user to get features requiring special permissions to work.
+.PP
+As LSF allows hosts to appear more than once in host groups, some
+hosts may appear more than once when displaying groups.
+.PP
+Highlighting by the curses library varies from terminal to terminal,
+and can be unpredictable.  On my dtterms, disabled hosts look dim,
+and dead hosts display in reverse video, but on other terminals they
+might flash, appear in bold or bounce around the screen making chicken
+noises.
+.PP
+.SH BUGS
+Loads, probably.
+.PP
+If the cluster becomes unavailable,
+.I lsftop
+will unceremoniously scribble all over the window telling you of
+this fact.  A quick ^L will restore order.
